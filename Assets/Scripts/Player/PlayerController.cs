@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerStates playerStates;
+    //private PlayerStates playerStates;
 
     private PlayerInput playerInput;
 
@@ -14,9 +14,17 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction;
     private InputAction attackAction;
 
+    //bool for if keys are pressed
+    private bool movePressed;
+    private bool jumpPressed;
+    private bool attackPressed;
+
+    //specific for movement
+    private int dir;
+
     private void Awake()
     {
-        playerStates = GetComponent<PlayerStates>();
+        //playerStates = GetComponent<PlayerStates>();
 
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
@@ -62,14 +70,20 @@ public class PlayerController : MonoBehaviour
         if(context.started)
         {
             if(direction.x == 1)
-                playerStates.SetMovePressed(true, 1);
+            {
+                dir = 1;
+                movePressed = true;
+            }
             else if(direction.x == -1)
-                playerStates.SetMovePressed(true, -1);
+            {
+                dir = -1;
+                movePressed = true;
+            }
             //Debug.Log();
         }
         else if(context.canceled && (direction.x != 1 || direction.x != -1))
         {
-            playerStates.SetMovePressed(false, 0);
+            movePressed = false;
             //Debug.Log("Stop move left");
         }
     }
@@ -77,15 +91,17 @@ public class PlayerController : MonoBehaviour
     private void JumpControl(InputAction.CallbackContext context)
     {
         if(context.started)
-            playerStates.SetJumpPressed(true);
+            jumpPressed = true;
         else if(context.canceled)
-            playerStates.SetJumpPressed(false);
+            jumpPressed = false;
     }
 
     private void AttackControl(InputAction.CallbackContext context)
     {
         if(context.started)
-            playerStates.SetAttackPressed(true);
+            attackPressed = true;
+        else if(context.canceled)
+            attackPressed = false;
         Debug.Log("AttackPressed");
     }
 
@@ -93,5 +109,25 @@ public class PlayerController : MonoBehaviour
     {
         //Vector2 move = moveAction.ReadValue<Vector2>();
         //Debug.Log(move);
+    }
+
+
+    //Getter functions
+    public bool IsMovePressed()
+    {
+        return movePressed;
+    }
+    public bool IsJumpPressed()
+    {
+        return jumpPressed;
+    }
+    public bool IsAttackPressed()
+    {
+        return attackPressed;
+    }
+
+    public int GetDir()
+    {
+        return dir;
     }
 }
