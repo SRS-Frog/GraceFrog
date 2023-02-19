@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeronBaseState : MonoBehaviour
+public abstract class HeronBaseState
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //public abstract void EnterState(HeronStateManager heron, HeronAttributes attributesHeron);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //public abstract void UpdateState(HeronStateManager heron);
+
+    //public abstract void FixedUpdateState(HeronStateManager heron);
+
+    //public abstract void OnCollisionEnter(HeronStateManager heron, Collision collision);
 }
